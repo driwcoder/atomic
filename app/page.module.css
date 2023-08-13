@@ -65,16 +65,5 @@
   background-color: black;
   color: aliceblue;
   width: 100%;
-}
-
-.footerContent {
-  position: absolute;
-  bottom: 0;
-}
-
-.html {
-  min-width: 100vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  margin-top: 50px;
 }
