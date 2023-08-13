@@ -1,14 +1,7 @@
-const express = require("express");
+import express from "express"
+import cors from "cors"
+import db from "./db.js";
 const app = express();
-const mysql = require("mysql2");
-const cors = require("cors");
-
-const db = mysql.createPool({
-  host: "localhost",
-  user: "admin",
-  password: "94050321@Mysql",
-  database: "atomicstore",
-});
 
 app.use(cors());
 app.use(express.json());
@@ -24,10 +17,14 @@ app.post("/cadastro", (req, res) => {
   let SQL =
     "INSERT INTO `atomicstore`.`clientes` (`nome`, `sexo`, `dataNascimento`, `peso`, `altura`, `raça`) VALUES ( ?,?,?,?,?,? );";
 
-  db.query(SQL, [nome, sexo, dataNascimento, peso, altura, raça], (err, result) => {
-    console.log(err);
-    console.log(result);
-  });
+  db.query(
+    SQL,
+    [nome, sexo, dataNascimento, peso, altura, raça],
+    (err, result) => {
+      console.log(err);
+      console.log(result);
+    }
+  );
 });
 
 app.get("/getClients", (req, res) => {
