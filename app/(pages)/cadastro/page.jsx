@@ -18,7 +18,6 @@ function Cadastro() {
     raça: "",
   });
   const [listClients, setListClients] = useState([]);
-  const [onEdit, setOnEdit] = useState(null);
 
   // Carrega os itens do banco de na tela
   useEffect(() => {
@@ -67,6 +66,7 @@ function Cadastro() {
 
       <div className={styles.registerContainer}>
         <div className={styles.crud}>
+          {/* FORMULÁRIO */}
           <form className={styles.forms}>
             <h1 className={styles.registerTitle}>Cadastro de Pessoa</h1>
             <input
@@ -123,6 +123,7 @@ function Cadastro() {
 
         <div className={styles.tabela}>
           <h1>Tabela</h1>
+          {/* TABELA */}
           <table className={styles.table}>
             <thead>
               <tr>
@@ -150,7 +151,7 @@ function Cadastro() {
                       <FaTrash onClick={() => handleDelete(value.id)} />
                     </td>
                     <td className={styles.td}>
-                      <FaEdit onClick={() => handleEdit(value)} />
+                      <FaEdit  />
                     </td>
                   </tr>
                 ))}
