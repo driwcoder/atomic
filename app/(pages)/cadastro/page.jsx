@@ -4,6 +4,9 @@ import styles from "../../page.module.css";
 import Header from "@/app/components/Header";
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
+import "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import { FaTrash, FaEdit } from "react-icons/fa";
 
 function Cadastro() {
   const [values, setValues] = useState({
@@ -14,9 +17,17 @@ function Cadastro() {
     altura: "",
     raça: "",
   });
-
   const [listClients, setListClients] = useState([]);
+  const [onEdit, setOnEdit] = useState(null);
 
+  // Carrega os itens do banco de na tela
+  useEffect(() => {
+    Axios.get("http://localhost:8888/getClients").then((dados) => {
+      setListClients(dados.data);
+    });
+  }, []); // Array vazio para executar apenas uma vez
+
+  // Função que pega os dados dos inputs
   const handleChangeValues = (e) => {
     const { name, value } = e.target;
     setValues((prevValues) => ({
@@ -25,25 +36,30 @@ function Cadastro() {
     }));
   };
 
+  // Função que adiciona um item ao banco de dados
   const handleClickButton = () => {
-    Axios.post("http://localhost:8888/cadastro", values).then((response) => {
-      console.log(response);
-      setValues({
-        nome: "",
-        sexo: "",
-        dataNascimento: "",
-        peso: "",
-        altura: "",
-        raça: "",
-      });
-    });
+    Axios.post("http://localhost:8888/cadastro", values).then(
+      (dadosInputados) => {
+        console.log(dadosInputados);
+        //aqui setamos os valores
+        setValues(values);
+      }
+    );
+    document.location.reload();
   };
 
-  useEffect(() => {
-    Axios.get("http://localhost:8888/getClients").then((response) => {
-      setListClients(response.data);
-    });
-  }, []); // Adicionei um array vazio para executar apenas uma vez
+  // Função que edita um item
+
+  // Função de deletar um item
+  const handleDelete = async (id) => {
+    await Axios.delete(`http://localhost:8888/delete/${id}`).then(
+      ({ data }) => {
+        setListClients(listClients);
+        toast.success(data);
+      }
+    );
+    document.location.reload();
+  };
 
   return (
     <main className={styles.cadastro}>
@@ -68,7 +84,7 @@ function Cadastro() {
               onChange={handleChangeValues}
             />
             <input
-              type="text"
+              type="date"
               name="dataNascimento"
               placeholder="Data de Nascimento (1994-12-31)"
               className={styles.registerInput}
@@ -96,6 +112,7 @@ function Cadastro() {
               onChange={handleChangeValues}
             />
             <button
+              type="submit"
               className={styles.registerButton}
               onClick={() => handleClickButton()}
             >
@@ -129,12 +146,23 @@ function Cadastro() {
                     <td className={styles.td}>{value.peso}</td>
                     <td className={styles.td}>{value.altura}</td>
                     <td className={styles.td}>{value.raça}</td>
+                    <td className={styles.td}>
+                      <FaTrash onClick={() => handleDelete(value.id)} />
+                    </td>
+                    <td className={styles.td}>
+                      <FaEdit onClick={() => handleEdit(value)} />
+                    </td>
                   </tr>
                 ))}
             </tbody>
           </table>
         </div>
       </div>
+      <ToastContainer
+        autoClose={5000}
+        position={toast.POSITION.BOTTOM_RIGHT}
+        className={styles.toast}
+      />
     </main>
   );
 }

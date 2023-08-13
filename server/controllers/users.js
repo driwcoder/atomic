@@ -1,14 +1,18 @@
-import {db} from "../db";
 
-export const getClients = (_, res) => {
-  let SQL = "SELECT * from clientes;";
+import express from "express";
+import db from "../db.js";
+const app = express();
 
-  db.query(SQL, (err, result) => {
-    if (err) {
-      console.log(err)
-      res.json(err)
-    } else {
-      res.status(22).json(result);
-    }
+export function getClients() {
+  app.get("/getClients", (_, res) => {
+    let SQL = "SELECT * from clientes;";
+
+    db.query(SQL, (err, result) => {
+      if (err) {
+        console.log(err);
+      } else {
+        res.status(200).json(result);
+      }
+    });
   });
-};
+}
