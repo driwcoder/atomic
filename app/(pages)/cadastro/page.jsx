@@ -1,7 +1,6 @@
 "use client";
 
 import styles from "../../page.module.css";
-import Header from "@/app/components/Header";
 import React, { useState, useEffect } from "react";
 import Axios from "axios";
 import "react-toastify";
@@ -62,8 +61,6 @@ function Cadastro() {
 
   return (
     <main className={styles.cadastro}>
-      <Header />
-
       <div className={styles.registerContainer}>
         <div className={styles.crud}>
           {/* FORMULÁRIO */}

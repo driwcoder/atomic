@@ -17,6 +17,7 @@ export default function Header() {
           <Link href="/cadastro">Cadastro</Link>
           <Link href="/calculadora">Calculadora</Link>
           <Link href="/tabela">Tabela</Link>
+          <Link href="/todolist">To do list</Link>
         </nav>
       </div>
     </main>
